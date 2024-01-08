@@ -4,9 +4,14 @@ import { inclusions, noHeaderFooterUrls } from '../../../constants'
 import classes from './index.module.scss'
 import { Gutter } from '../../Gutter'
 import Image from 'next/image'
+import Link from 'next/link'
+import { Footer } from '../../../../payload/payload-types'
+import { Button } from '../../Button'
 
-const FooterComponent = () => {
+const FooterComponent = ({ footer }: { footer: Footer }) => {
   const pathname = usePathname()
+
+  const navItems = footer?.navItems || []
   return (
     <footer className={noHeaderFooterUrls.includes(pathname) ? classes.hide : ''}>
       <Gutter>
@@ -26,7 +31,39 @@ const FooterComponent = () => {
           ))}
         </ul>
       </Gutter>
-      <div className={classes.footer}></div>
+      <div className={classes.footer}>
+        <Gutter>
+          <div className={classes.wrap}>
+            <Link href="/">
+              <Image
+                src="/logo-ecocrave-sakura.png"
+                alt="ecocrave sakura logo"
+                width={170}
+                height={50}
+              />
+            </Link>
+            <p>{footer.copyright}</p>
+
+            <div className={classes.socialLinks}>
+              {navItems.map((item, idx) => {
+                const icon = ' '
+
+                return (
+                  <Button
+                    key={item.link.label}
+                    el="link"
+                    href={item.link.url}
+                    newTab={true}
+                    className={classes.socialLinkItem}
+                  >
+                    {item.link.label}
+                  </Button>
+                )
+              })}
+            </div>
+          </div>
+        </Gutter>
+      </div>
     </footer>
   )
 }
