@@ -5,7 +5,7 @@ import classes from './index.module.scss'
 import { Gutter } from '../../Gutter'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Footer } from '../../../../payload/payload-types'
+import { Footer, Media } from '../../../../payload/payload-types'
 import { Button } from '../../Button'
 
 const FooterComponent = ({ footer }: { footer: Footer }) => {
@@ -46,7 +46,7 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
 
             <div className={classes.socialLinks}>
               {navItems.map((item, idx) => {
-                const icon = ' '
+                const icon = item?.link?.icon as Media
 
                 return (
                   <Button
@@ -56,7 +56,13 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
                     newTab={true}
                     className={classes.socialLinkItem}
                   >
-                    {item.link.label}
+                    <Image
+                      src={icon?.url}
+                      alt={icon?.alt}
+                      width={24}
+                      height={24}
+                      className={classes.socialIcon}
+                    />
                   </Button>
                 )
               })}
